@@ -28,25 +28,33 @@
         }
 
         $regexCounter = 0;
-        $regexes = [];
+        $regexes = ['^[a-zA-Z\s\-]{3,255}$', '^[a-zA-Z0-9_\-]{3,15}$', "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$", '^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$'];
         $matches = [];
         foreach ($user as $k => $v) {
-            preg_match($regexes[$regexCounter], $user[$i], $matches[$regexCounter], PREG_UNMATCHED_AS_NULL);
-            $regexCounter++;
+            if($regexCounter !== count($regexCounter)){
+                preg_match($regexes[$regexCounter], $user[$regexCounter], $matches[$regexCounter], PREG_UNMATCHED_AS_NULL);
+                $regexCounter++;
+            }
         }
 
+        $errorCounter = 0;
         for ($i=0; $i < count($matches); $i++) { 
             for ($x=0; $x < counter($matches[$i]); $x++) { 
                 if($matches[$i][$x] !== null){
-                    if($user['password'] == $user['repeatPassword']){
-                        $user['hash'] = md5($user['password'], PASSWORD_DEFAULT);
-                    }
-                }
-                else{
-                    //return error or something
+                    $errorCounter++;   
                 }
             }
         }        
+
+        if($errorCounter == 0){
+            if($user['password'] == $user['repeatPassword']){
+                $user['hash'] = md5($user['password'], PASSWORD_DEFAULT);
+                insertData('users', ['name', 'username', 'email', 'password'], [$user['name'], $user['username'], $user['email'], $user['hash']]);
+            }
+        }
+        else{
+            //return errors or something
+        }
 
         var_dump($user);
     ?>
