@@ -1,6 +1,13 @@
 <?php include "./layout/header.php" ?>
-
-<form action="<?php echo $_SERVER["PHP_SELF"]?>" method="post">
+    <?php 
+        session_start();
+        if($_SESSION['user'] !== null){
+            header("Location: ./home.php");
+            exit;
+        }
+    ?>
+    
+    <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="post">
         <input type="text" name="name" id="name" placeholder="Name">
         <input type="text" name="username" id="username" placeholder="Username">
         <input type="text" name="email" id="email" placeholder="Email">
