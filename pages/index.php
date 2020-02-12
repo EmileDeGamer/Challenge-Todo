@@ -1,5 +1,4 @@
 <?php include "./layout/header.php" ?>
-
     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="post">
         <input type="text" name="username" id="username" placeholder="Username">
         <span><input type="password" name="password" id="password" placeholder="Password"><input type="checkbox" name="showPassword" id="showPassword"></span>
@@ -20,6 +19,12 @@
             else{
                 if(password_verify($user['password'], $userData[0]['password'])){
                     echo 'Logged in';
+                    $tUser = [];
+                    $tUser['name'] = $userData[0]['name'];
+                    $tUser['username'] = $userData[0]['username'];
+                    $tUser['email'] = $userData[0]['email'];
+                    session_start();
+                    $_SESSION['user'] = $tUser;
                 }
                 else{
                     echo 'Wrong password';

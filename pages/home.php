@@ -1,5 +1,9 @@
 <?php include "./layout/header.php" ?>
-
+    <?php
+        if($_SESSION['user'] !== null){
+            var_dump($_SESSION['user']);
+        }
+    ?>
     <ul id="commands">
         
     </ul>

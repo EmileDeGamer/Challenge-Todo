@@ -41,6 +41,12 @@
                 if(getData('users', ['username'], ['username'], [$user['username']]) == null){
                     $user['hash'] = password_hash($user['password'], PASSWORD_DEFAULT);
                     insertData('users', ['name', 'username', 'email', 'password'], [$user['name'], $user['username'], $user['email'], $user['hash']]);
+                    $tUser = [];
+                    $tUser['name'] = $user['name'];
+                    $tUser['username'] = $user['username'];
+                    $tUser['email'] = $user['email'];
+                    session_start();
+                    $_SESSION['user'] = $tUser;
                 }
                 else{
                     echo 'username already in use';
