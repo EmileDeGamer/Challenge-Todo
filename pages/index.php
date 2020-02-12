@@ -12,6 +12,19 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user['username'] = test_input($_POST["username"]);
             $user['password'] = test_input($_POST["password"]);
+
+            $userData = getData('users', null, ['username'], [$user['username']]);
+            if($userData == null){
+                echo "username doesn't exist";
+            }
+            else{
+                if(password_verify($user['password'], $userData[0]['password'])){
+                    echo 'Logged in';
+                }
+                else{
+                    echo 'Wrong password';
+                }
+            }
         }
         
         function test_input($data) {
@@ -20,17 +33,6 @@
             $data = htmlspecialchars($data);
             return $data;
         }
-
-        //get hash from db
-
-        /*if (password_verify($password, $hash)) {
-            // Success!
-        }
-        else {
-            // Invalid credentials
-        }*/
-
-        var_dump($user);
     ?>
 
 <?php include "./layout/footer.php" ?>

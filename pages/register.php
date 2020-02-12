@@ -18,6 +18,38 @@
             $user['email'] = test_input($_POST["email"]);
             $user['password'] = test_input($_POST["password"]);
             $user['repeatPassword'] = test_input($_POST["repeatPassword"]);
+
+            $errorCounter = [];
+
+            if (!preg_match("/^[a-zA-Z\s\-]{3,255}$/", $user['name'])) {
+                $errorCounter['name'] = 'Wrong usage of name (no numbers allowed)';
+            }   
+            if (!preg_match("/^[a-zA-Z0-9_\-]{3,15}$/", $user['username'])) {
+                $errorCounter['username'] = 'Wrong usage of username (no spaces allowed and min length 3 characters, max length 15 characters)';
+            } 
+            if (!filter_var($user['email'], FILTER_VALIDATE_EMAIL)) {
+                $errorCounter['email'] = 'Wrong usage of email (no spaces allowed)';
+            } 
+            if (!preg_match("/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/", $user['password'])) {
+                $errorCounter['password'] = 'Wrong usage of password (1 uppercase, 1 lowercase, 1 number and min length 8)';
+            } 
+            if($user['password'] !== $user['repeatPassword']){
+                $errorCounter['repeatPassword'] = 'Passwords are not the same';
+            }
+
+            if(count($errorCounter) == 0){
+                if(getData('users', ['username'], ['username'], [$user['username']]) == null){
+                    $user['hash'] = password_hash($user['password'], PASSWORD_DEFAULT);
+                    insertData('users', ['name', 'username', 'email', 'password'], [$user['name'], $user['username'], $user['email'], $user['hash']]);
+                }
+                else{
+                    echo 'username already in use';
+                }
+            }
+            else{
+                //return errors or something
+                var_dump($errorCounter);
+            }
         }
         
         function test_input($data) {
@@ -26,37 +58,6 @@
             $data = htmlspecialchars($data);
             return $data;
         }
-
-        $regexCounter = 0;
-        $regexes = ['^[a-zA-Z\s\-]{3,255}$', '^[a-zA-Z0-9_\-]{3,15}$', "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$", '^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$'];
-        $matches = [];
-        foreach ($user as $k => $v) {
-            if($regexCounter !== count($regexCounter)){
-                preg_match($regexes[$regexCounter], $user[$regexCounter], $matches[$regexCounter], PREG_UNMATCHED_AS_NULL);
-                $regexCounter++;
-            }
-        }
-
-        $errorCounter = 0;
-        for ($i=0; $i < count($matches); $i++) { 
-            for ($x=0; $x < counter($matches[$i]); $x++) { 
-                if($matches[$i][$x] !== null){
-                    $errorCounter++;   
-                }
-            }
-        }        
-
-        if($errorCounter == 0){
-            if($user['password'] == $user['repeatPassword']){
-                $user['hash'] = md5($user['password'], PASSWORD_DEFAULT);
-                insertData('users', ['name', 'username', 'email', 'password'], [$user['name'], $user['username'], $user['email'], $user['hash']]);
-            }
-        }
-        else{
-            //return errors or something
-        }
-
-        var_dump($user);
     ?>
 
 <?php include "./layout/footer.php" ?>
