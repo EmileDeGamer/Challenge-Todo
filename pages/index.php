@@ -23,12 +23,12 @@
 
         //get hash from db
 
-        if (password_verify($password, $hash)) {
+        /*if (password_verify($password, $hash)) {
             // Success!
         }
         else {
             // Invalid credentials
-        }
+        }*/
 
         var_dump($user);
     ?>
