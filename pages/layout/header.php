@@ -9,7 +9,10 @@
 </head>
 <body>
     <div id="wrapper">
+        <header>
+            <ul id="menuButtons"></ul>
+        </header> 
         <?php include ('./../php/db.php') ?>
-        <h1>ToDo</h1>
-
+        <h1 id="pageTitle">ToDo</h1>
+            <?php //print_r(getData('users', null, ['name'], ['Henk'])); ?>
     

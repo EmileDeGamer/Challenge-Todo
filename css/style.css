@@ -1,4 +1,40 @@
 body {
   margin: auto;
 }
+
+body header #menuButtons {
+  list-style: none;
+  padding: 0;
+}
+
+body header #menuButtons li {
+  display: inline-block;
+  margin: 25px;
+}
+
+body header #menuButtons li:hover {
+  color: #14acdf;
+}
+
+body form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+body #exampleList {
+  border: 1px solid black;
+}
+
+body #exampleList #listItems {
+  padding: 0;
+  list-style: none;
+}
 /*# sourceMappingURL=style.css.map */

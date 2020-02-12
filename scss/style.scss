@@ -1,3 +1,33 @@
+$accentColor: rgb(20, 172, 223);
+
 body{
     margin: auto;
+    header{
+        #menuButtons{
+            list-style: none;
+            padding: 0;
+            li{
+                display: inline-block;
+                margin: 25px;
+            }
+            li:hover{
+                color: $accentColor;
+            }
+        }
+    }
+    form{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+    #exampleList{
+        border: 1px solid black;
+        #listTitle{
+            
+        }
+        #listItems{
+            padding: 0;
+            list-style: none;
+        }
+    }
 }

@@ -13,8 +13,10 @@
         echo "Connection failed: " . $e->getMessage();
     }
 
-    insertData("users", ["name", "username"], ["pizza", "pizza"]);
-    getData('users', null, ['name', 'username'], ['pizza', 'pizza']);
+    //insertData("users", ["name", "username"], ["pizza", "pizza"]);
+    //$result = getData('users', null, ['name', 'username'], ['pizza', 'pizza']);
+    //deleteData('users', ['name', 'username'], ['pizza', 'pizza']);
+    //updateData('users', ['name'], ['Henk'], ['username'], ['pizza']);
 
     function insertData($table, $namesArray, $valuesArray){
         if(count($namesArray) !== count($valuesArray)){
@@ -53,12 +55,10 @@
                 $whatToGetString = '';
                 for ($i=0; $i < count($whereArray); $i++) { 
                     if($i !== count($whereArray)-1){
-                        $whereString .= $whereArray[$i] . " = '" . $whereValuesArray[$i] . "' AND ";
-                        //$whereValuesString .= "'" . $whereValuesArray[$i] . "', ";
+                        $whereString .= $whereArray[$i] . "='" . $whereValuesArray[$i] . "' AND ";
                     }
                     else{
-                        $whereString .= $whereArray[$i] . " = '" . $whereValuesArray[$i] . "'";
-                        //$whereValuesString .= "'" . $whereValuesArray[$i] . "'";
+                        $whereString .= $whereArray[$i] . "='" . $whereValuesArray[$i] . "'";
                     }
                 }
                 if($whatToGetArray == null){
@@ -78,11 +78,70 @@
                 $stmt = $GLOBALS['conn']->prepare($sql);
                 $stmt->execute();
 
-                $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                foreach(new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-                    echo $v;
+                $result = $stmt->fetchAll();
+                
+                return $result;
+            }
+            catch(PDOException $e){
+                echo $sql . "<br>" . $e->getMessage();
+            }
+        }
+    }
+
+    function deleteData($table, $whereArray, $whereValuesArray){
+        if(count($whereArray) !== count($whereValuesArray)){
+            echo 'where and where values lengths are not the same';
+        }
+        else{
+            try{
+                $whereString = '';
+                for ($i=0; $i < count($whereArray); $i++) { 
+                    if($i !== count($whereArray)-1){
+                        $whereString .= $whereArray[$i] . "='" . $whereValuesArray[$i] . "' AND ";
+                    }
+                    else{
+                        $whereString .= $whereArray[$i] . "='" . $whereValuesArray[$i] . "'";
+                    }
                 }
-                echo "Done! :D";
+                $sql = "DELETE FROM $table WHERE $whereString";
+                $GLOBALS['conn']->exec($sql);
+            }
+            catch(PDOException $e){
+                echo $sql . "<br>" . $e->getMessage();
+            }
+        }
+    }
+
+    function updateData($table, $whatToUpdateArray, $whatToUpdateValuesArray, $whereArray, $whereValuesArray){
+        if(count($whereArray) !== count($whereValuesArray)){
+            echo 'where and where values lengths are not the same';
+        }
+        else if (count($whatToUpdateArray) !== count($whatToUpdateValuesArray)){
+            echo 'whatToUpdate and whatToUpdate values lengths are not the same';
+        }
+        else{
+            try{
+                $whereString = '';
+                $whatToUpdateString = '';
+                for ($i=0; $i < count($whereArray); $i++) { 
+                    if($i !== count($whereArray)-1){
+                        $whereString .= $whereArray[$i] . "='" . $whereValuesArray[$i] . "' AND ";
+                    }
+                    else{
+                        $whereString .= $whereArray[$i] . "='" . $whereValuesArray[$i] . "'";
+                    }
+                }
+                for ($i=0; $i < count($whatToUpdateArray); $i++) { 
+                    if($i !== count($whatToUpdateArray)-1){
+                        $whatToUpdateString .= $whatToUpdateArray[$i] . "='" . $whatToUpdateValuesArray[$i] . "' AND ";
+                    }
+                    else{
+                        $whatToUpdateString .= $whatToUpdateArray[$i] . "='" . $whatToUpdateValuesArray[$i] . "'";
+                    }
+                }
+                $sql = "UPDATE $table SET $whatToUpdateString WHERE $whereString";
+                $stmt = $GLOBALS['conn']->prepare($sql);
+                $stmt->execute();
             }
             catch(PDOException $e){
                 echo $sql . "<br>" . $e->getMessage();
