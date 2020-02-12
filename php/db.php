@@ -13,7 +13,8 @@
         echo "Connection failed: " . $e->getMessage();
     }
 
-    insertData('users', ['name', 'username'], ['pizza', 'pizza']);
+    insertData("users", ["name", "username"], ["pizza", "pizza"]);
+    getData('users', null, ['name', 'username'], ['pizza', 'pizza']);
 
     function insertData($table, $namesArray, $valuesArray){
         if(count($namesArray) !== count($valuesArray)){
@@ -49,20 +50,19 @@
         else{
             try{
                 $whereString = '';
-                $whereValuesString = '';
                 $whatToGetString = '';
                 for ($i=0; $i < count($whereArray); $i++) { 
                     if($i !== count($whereArray)-1){
-                        $whereString .= $whereArray[$i] .= ", ";
-                        $whereValuesString .= "'" . $whereValuesArray[$i] . "', ";
+                        $whereString .= $whereArray[$i] . " = '" . $whereValuesArray[$i] . "' AND ";
+                        //$whereValuesString .= "'" . $whereValuesArray[$i] . "', ";
                     }
                     else{
-                        $whereString .= $whereArray[$i];
-                        $whereValuesString .= "'" . $whereValuesArray[$i] . "'";
+                        $whereString .= $whereArray[$i] . " = '" . $whereValuesArray[$i] . "'";
+                        //$whereValuesString .= "'" . $whereValuesArray[$i] . "'";
                     }
                 }
                 if($whatToGetArray == null){
-                    $sql = "SELECT * FROM $table WHERE ";
+                    $sql = "SELECT * FROM $table WHERE $whereString";
                 }
                 else{
                     for ($i=0; $i < count($whatToGetArray); $i++) { 
@@ -73,9 +73,15 @@
                             $whatToGetString .= $whatToGetArray[$i];
                         }
                     }
-                    $sql = "SELECT $whatToGetString FROM $table WHERE ";
+                    $sql = "SELECT $whatToGetString FROM $table WHERE $whereString";
                 }
-                $GLOBALS['conn']->exec($sql);
+                $stmt = $GLOBALS['conn']->prepare($sql);
+                $stmt->execute();
+
+                $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                foreach(new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+                    echo $v;
+                }
                 echo "Done! :D";
             }
             catch(PDOException $e){
