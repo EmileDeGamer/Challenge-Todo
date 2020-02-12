@@ -9,6 +9,7 @@
 </head>
 <body>
     <div id="wrapper">
+        <?php include ('./../php/db.php') ?>
         <h1>ToDo</h1>
 
     
