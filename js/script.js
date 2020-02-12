@@ -32,7 +32,14 @@ if(showRepeatPassword !== null){
 
 let commandsDisplay = document.getElementById('commands')
 if(commandsDisplay !== null){
-    let commands = ['create', 'delete', '']
+    let commands = ['create', 'delete']
+
+    for (let i = 0; i < commands.length; i++) {
+        let button = document.createElement('button')
+        button.innerHTML = commands[i]
+        button.onclick = function(){executeCommand(i)}
+        commandsDisplay.appendChild(button)
+    }
 
     let exampleList = document.getElementById('exampleList')
     
@@ -43,7 +50,17 @@ if(commandsDisplay !== null){
     for (let i = 0; i < exampleListItems.length; i++) {
         let li = document.createElement('li')
         li.innerHTML = exampleListItems[i]
-        exampleList.appendChild(li)
+        listItems.appendChild(li)
+    }
+
+    function executeCommand(i){
+        if(commands[i] == 'create'){
+            let listName = prompt('enter list name', 'name')
+            location.href = "home.php?listName="+listName
+        }
+        else if (commands[i] == 'delete'){
+
+        }
     }
 }
 
@@ -79,7 +96,7 @@ else{
     tTitle[0] = tTitle[0].toUpperCase()
     tTitle = tTitle.toString().replace(/,/g, '')
     if(tTitle !== "Index"){
-        pageTitle.innerHTML = tTitle
+        pageTitle.innerHTML = tTitle.split('?')[0]
     }
     else{
         pageTitle.innerHTML = "Login"
