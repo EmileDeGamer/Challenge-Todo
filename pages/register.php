@@ -1,7 +1,7 @@
 <?php include "./layout/header.php" ?>
     <?php 
         session_start();
-        if($_SESSION['user'] !== null){
+        if(isset($_SESSION['user'])){
             header("Location: ./home.php");
             exit;
         }

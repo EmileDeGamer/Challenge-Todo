@@ -102,3 +102,12 @@ else{
         pageTitle.innerHTML = "Login"
     }
 }
+
+let lists = document.getElementById('lists')
+if(lists !== null){
+    console.log(lists.value)
+}   
+let listItems = document.getElementById('listItems')
+if(listItems !== null){
+    console.log(listItems.value)
+}
