@@ -30,9 +30,9 @@ if(showRepeatPassword !== null){
     showRepeatPassword.onclick = function(){makePasswordVisible('showRepeatPassword')}
 }
 
-let commandsDisplay = document.getElementById('commands')
+/*let commandsDisplay = document.getElementById('commands')
 if(commandsDisplay !== null){
-    let commands = ['create', 'delete']
+    let commands = ['create', 'insert', 'delete']
 
     for (let i = 0; i < commands.length; i++) {
         let button = document.createElement('button')
@@ -41,7 +41,7 @@ if(commandsDisplay !== null){
         commandsDisplay.appendChild(button)
     }
 
-    let exampleList = document.getElementById('exampleList')
+    /*let exampleList = document.getElementById('exampleList')
     
     let listItems = document.getElementById('listItems')
     
@@ -61,8 +61,13 @@ if(commandsDisplay !== null){
         else if (commands[i] == 'delete'){
 
         }
+        else if (commands[i] == 'insert'){
+            let listName = prompt('enter list name', 'name')
+            let listItem = prompt('enter list item content' , 'content')
+            location.href = "home.php?listName="+listName+"&listItem="+listItem
+        }
     }
-}
+}*/
 
 function makePasswordVisible(passwordType){
     if(passwordType == 'showPassword'){
@@ -103,11 +108,87 @@ else{
     }
 }
 
-let lists = document.getElementById('lists')
+let listsDisplay = document.getElementById('listsDisplay')
+
+/*let lists = document.getElementById('lists')
 if(lists !== null){
-    console.log(lists.value)
+    if(lists.value !== null){
+        let listsDisplay = document.getElementById('listsDisplay')
+        console.log(lists.value)
+        lists.value = lists.value.replace("[{", "").replace("}]", "")
+        let arr = lists.value.split(',')
+        for (let i = 0; i < arr.length; i++) {
+            if(arr.indexOf(i) == -1){
+                arr.splice(i, 1)
+                arr[i] = arr[i].replace('"' + i + '":', "")
+            }
+        }
+        arr[2] = arr[2].replace('"[', "")
+        arr[2] = arr[2].replace(']"', "")
+        let userLists = arr[2].split('listName:')
+        for (let i = 1; i < userLists.length; i++) {
+            let ul = document.createElement('ul')
+            userLists[i] = userLists[i].replace('"', "")
+            userLists[i] = userLists[i].replace(']', "")
+            userLists[i] = userLists[i].replace(/\\/, "")
+            ul.id = userLists[i]
+            let ulTitle = document.createElement('h3')
+            ulTitle.innerHTML = userLists[i]
+            ul.appendChild(ulTitle)
+            listsDisplay.appendChild(ul)
+        }
+        console.log(userLists)
+    }
 }   
 let listItems = document.getElementById('listItems')
 if(listItems !== null){
     console.log(listItems.value)
+}*/
+
+//list on click has to put id with it
+
+let userLists = document.getElementById('lists')
+let userListItems = document.getElementById('listItems')
+let listButtons = ['+']
+if(userLists !== null){
+    let data = JSON.parse(userLists.value)
+    for (let i = 0; i < data.length; i++) {
+        let listHolder = document.createElement('div')
+        listHolder.id = data[i]['id'] + "holder"
+        let buttonsHolder = document.createElement('div')
+        for (let x = 0; x < listButtons.length; x++) {
+            let button = document.createElement('button')
+            button.innerHTML = listButtons[x]
+            button.onclick = function(){executeListCommand(data[i]['id'], x)}
+            buttonsHolder.appendChild(button)
+        }
+        listHolder.appendChild(buttonsHolder)
+        let ul = document.createElement('ul')
+        ul.id = data[i]['id']
+        listHolder.appendChild(ul)
+        listsDisplay.appendChild(listHolder)
+        console.log(data[i]['listName'])
+        console.log(data[i]['id'])
+    }
+}
+
+if(userListItems !== null){
+    let data = JSON.parse(userListItems.value)
+    for (let i = 0; i < data.length; i++) {
+        //data[i]['listItem']
+        console.log(data[i]['listItem'])
+        console.log(data[i]['listID'])
+        let list = document.getElementById(data[i]['listID'])
+        let li = document.createElement('li')
+        li.innerHTML = data[i]['listItem']
+        list.appendChild(li)
+    }
+}
+
+function executeListCommand(listID, index){
+    if(listButtons[index] == "+"){
+        let listItemContent = prompt('enter list content', 'content')
+        console.log(listItemContent)
+        location.href = "home.php?listItem="+listItemContent+"&listID="+listID
+    }
 }
