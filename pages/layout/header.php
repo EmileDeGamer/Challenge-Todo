@@ -10,9 +10,18 @@
 <body>
     <div id="wrapper">
         <header>
-            <ul id="menuButtons"></ul>
+            <ul id="menuButtons">
+                <?php 
+                    session_start();
+                    if(isset($_SESSION['user'])){
+                        echo "<li><a href='./logout.php'>Logout</a></li>";
+                    } 
+                    else{
+                        echo "<li><a href='./index.php'>Login</a></li>";
+                        echo "<li><a href='./register.php'>Register</a></li>";
+                    }   
+                ?>
+            </ul>
         </header> 
         <?php include ('./../php/db.php') ?>
         <h1 id="pageTitle">ToDo</h1>
-            <?php //print_r(getData('users', null, ['name'], ['Henk'])); ?>
-    

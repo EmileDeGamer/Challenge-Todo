@@ -1,6 +1,5 @@
 <?php include "./layout/header.php" ?>
     <?php 
-        session_start();
         if(isset($_SESSION['user'])){
             header("Location: ./home.php");
             exit;
@@ -52,8 +51,9 @@
                     $tUser['name'] = $user['name'];
                     $tUser['username'] = $user['username'];
                     $tUser['email'] = $user['email'];
-                    session_start();
                     $_SESSION['user'] = $tUser;
+                    header("Location: ./index.php");
+                    exit;
                 }
                 else{
                     echo 'username already in use';

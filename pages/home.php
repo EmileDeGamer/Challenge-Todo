@@ -1,8 +1,7 @@
 <?php include "./layout/header.php" ?>
     <?php
-        session_start();
         if(isset($_SESSION['user'])){
-            var_dump($_SESSION['user']);
+            
         }
         else{
             header("Location: ./index.php");
@@ -14,7 +13,7 @@
     </ul>
 
     <div id="listsDisplay">
-        
+
     </div>
 
     <?php 
@@ -22,41 +21,29 @@
         echo "<input type='hidden' id='lists' name='lists' value=".json_encode($userLists).">";
         $userListItems = getData('listItems', null, ['username'], [$_SESSION['user']['username']]);
         echo "<input type='hidden' id='listItems' name='listItems' value=".json_encode($userListItems).">";
-        /*$lists = getData('lists', null, ['username'], [$_SESSION['user']['username']]);
-        echo "<input type='hidden' name='lists' id='lists' value='".json_encode($lists)."'>";
-        $listItems = getData('listItems', null, ['username'], [$_SESSION['user']['username']]);
-        echo "<input type='hidden' name='listItems' id='listItems' value='".json_encode($listItems)."'>";
-        var_dump(getData('lists', null, ['username'], [$_SESSION['user']['username']]));
-        var_dump(getData('listItems', null, ['username'], [$_SESSION['user']['username']]));*/
         if(isset($_GET['listName']) && !isset($_GET['listItem'])){
-            
-            //if(getData('lists', ['username'], ['username'], [$_SESSION['user']['username']]) == null){
-                insertData('lists', ['username', 'listName'], [$_SESSION['user']['username'], $_GET['listName']]);
-            /*}
-            else{
-                $userData = getData('lists', null, ['username'], [$_SESSION['user']['username']]);
-                for ($i=0; $i < count($userData); $i++) { 
-                    echo $userData[$i]['listName'];
-                }
-                //$userData[0]['listNames'] = $userData[0]['listNames'] .= "listName:" . $_GET['listName'];
-                //$userData[0]['listsData'] = $userData[0]['listsData'] .= 'listData:""';
-                //updateData('lists', ['listNames', 'listsData'], [$userData[0]['listNames'], $userData[0]['listsData']], ['username'], [$userData[0]['username']]);
-                //$userListItems = explode("listData:", $userData[0]['listsData']);
-                die(var_dump($userData));
-            }*/
+            insertData('lists', ['username', 'listName'], [$_SESSION['user']['username'], str_replace(' ', '/////zxyxyz/////', $_GET['listName'])]);
             echo "<script>location.href = 'home.php'</script>";
         }
         if(isset($_GET['listItem']) && isset($_GET['listID'])){
-            //$userData = getData('lists', null, ['username'], [$_SESSION['user']['username']]);
-            //$userListItems = explode("listData:", $userData[0]['listsData']);
-            //die($userListItems);
-            //$userData[0]['listsData'] = $userData[0]['listsData'] .= "listData:" . $_GET['listItem'];
-            //updateData('lists', ['data'], [$userData[0]['data']], ['username'], [$userData[0]['username']]);
-            insertData('listItems', ['username', 'listItem', 'listID'], [$_SESSION['user']['username'], $_GET['listItem'], $_GET['listID']]);
+            insertData('listItems', ['username', 'listItem', 'listID'], [$_SESSION['user']['username'], str_replace(' ', '/////zxyxyz/////', $_GET['listItem']), $_GET['listID']]);
+            echo "<script>location.href = 'home.php'</script>";
+        }
+        if(isset($_GET['listItemID']) && !isset($_GET['status'])){
+            deleteData('listItems', ['id'], [$_GET['listItemID']]);
+            echo "<script>location.href = 'home.php'</script>";
+        }
+        if(isset($_GET['listToRemoveID'])){
+            $listItemsOfList = getData('lists', null, ['username'], [$_SESSION['user']['username']]);
+            for ($i=0; $i < count($listItemsOfList); $i++) { 
+                deleteData('listItems', ['listID'], [$_GET['listToRemoveID']]);
+            }
+            deleteData('lists', ['id'], [$_GET['listToRemoveID']]);
+            echo "<script>location.href = 'home.php'</script>";
+        }
+        if(isset($_GET['status']) && isset($_GET['listItemID'])){
+            updateData('listItems', ['status'], [$_GET['status']], ['username', 'id'], [$_SESSION['user']['username'], $_GET['listItemID']]);
             echo "<script>location.href = 'home.php'</script>";
         }
     ?>
-
-    
-
 <?php include "./layout/footer.php" ?>
