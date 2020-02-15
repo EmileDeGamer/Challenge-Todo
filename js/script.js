@@ -103,9 +103,11 @@ if(userListItems !== null){
         for (let x = 0; x < statusOptions.length; x++) {
             let option = document.createElement('option')
             let text = document.createTextNode(statusOptions[x])
-            if(statusColors[x] !== null && data[i]['status'] == x){
+            if(statusColors[x] !== null){
                 option.style.background = statusColors[x]
-                li.style.color = statusColors[x]
+                if(data[i]['status'] == x){
+                    li.style.color = statusColors[x]
+                }
             }
             option.appendChild(text)
             option.value = statusOptions[x]
