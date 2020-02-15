@@ -44,9 +44,9 @@
             }
 
             if(count($errorCounter) == 0){
-                if(getData('users', ['username'], ['username'], [$user['username']]) == null){
+                if(getData('users', ['username'=>$user['username']]) == null){
                     $user['hash'] = password_hash($user['password'], PASSWORD_DEFAULT);
-                    insertData('users', ['name', 'username', 'email', 'password'], [$user['name'], $user['username'], $user['email'], $user['hash']]);
+                    insertData('users', ['name'=>$user['name'],'username'=>$user['username'],'email'=>$user['email'],'password'=>$user['hash']]);
                     $tUser = [];
                     $tUser['name'] = $user['name'];
                     $tUser['username'] = $user['username'];

@@ -17,32 +17,37 @@
     </div>
 
     <?php 
-        $userLists = getData('lists', null, ['username'], [$_SESSION['user']['username']]);
+        $userLists = getData('lists', ['username'=>$_SESSION['user']['username']]);
         echo "<input type='hidden' id='lists' name='lists' value=".json_encode($userLists).">";
-        $userListItems = getData('listItems', null, ['username'], [$_SESSION['user']['username']]);
+        $userListItems = getData('listItems', ['username'=>$_SESSION['user']['username']]);
         echo "<input type='hidden' id='listItems' name='listItems' value=".json_encode($userListItems).">";
         if(isset($_GET['listName']) && !isset($_GET['listItem'])){
-            insertData('lists', ['username', 'listName'], [$_SESSION['user']['username'], str_replace(' ', '/////zxyxyz/////', $_GET['listName'])]);
+            insertData('lists', ['username'=>$_SESSION['user']['username'], 'listName'=>str_replace(' ','/////zxyxyz/////',$_GET['listName'])]);
             echo "<script>location.href = 'home.php'</script>";
         }
         if(isset($_GET['listItem']) && isset($_GET['listID'])){
-            insertData('listItems', ['username', 'listItem', 'listID'], [$_SESSION['user']['username'], str_replace(' ', '/////zxyxyz/////', $_GET['listItem']), $_GET['listID']]);
+            insertData('listItems', ['username'=>$_SESSION['user']['username'],'listItem'=>str_replace(' ','/////zxyxyz/////',$_GET['listItem']),'listID'=>$_GET['listID']]);
             echo "<script>location.href = 'home.php'</script>";
         }
-        if(isset($_GET['listItemID']) && !isset($_GET['status'])){
-            deleteData('listItems', ['id'], [$_GET['listItemID']]);
+        if(isset($_GET['listItemID']) && !isset($_GET['status']) && !isset($_GET['editedListItem'])){
+            deleteData('listItems', ['id'=>$_GET['listItemID']]);
             echo "<script>location.href = 'home.php'</script>";
         }
         if(isset($_GET['listToRemoveID'])){
-            $listItemsOfList = getData('lists', null, ['username'], [$_SESSION['user']['username']]);
-            for ($i=0; $i < count($listItemsOfList); $i++) { 
-                deleteData('listItems', ['listID'], [$_GET['listToRemoveID']]);
-            }
-            deleteData('lists', ['id'], [$_GET['listToRemoveID']]);
+            deleteData('listItems', ['listID'=>$_GET['listToRemoveID']]);
+            deleteData('lists', ['id'=>$_GET['listToRemoveID']]);
             echo "<script>location.href = 'home.php'</script>";
         }
         if(isset($_GET['status']) && isset($_GET['listItemID'])){
-            updateData('listItems', ['status'], [$_GET['status']], ['username', 'id'], [$_SESSION['user']['username'], $_GET['listItemID']]);
+            updateData('listItems', ['status'=>$_GET['status']], ['id'=>$_GET['listItemID'], "username"=>$_SESSION["user"]["username"]]);
+            echo "<script>location.href = 'home.php'</script>";
+        }
+        if(isset($_GET['editedListName']) && isset($_GET['listID'])){
+            updateData('lists', ['listName'=>str_replace(' ','/////zxyxyz/////',$_GET['editedListName'])],['id'=>$_GET['listID']]);
+            echo "<script>location.href = 'home.php'</script>";
+        }
+        if(isset($_GET['editedListItem']) && isset($_GET['listItemID'])){
+            updateData('listItems', ['listItem'=>str_replace(' ','/////zxyxyz/////',$_GET['editedListItem'])],['id'=>$_GET['listItemID']]);
             echo "<script>location.href = 'home.php'</script>";
         }
     ?>

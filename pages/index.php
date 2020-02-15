@@ -18,7 +18,7 @@
             $user['username'] = test_input($_POST["username"]);
             $user['password'] = test_input($_POST["password"]);
 
-            $userData = getData('users', null, ['username'], [$user['username']]);
+            $userData = getData('users', ['username'=>$user['username']]);
             if($userData == null){
                 echo "username doesn't exist";
             }

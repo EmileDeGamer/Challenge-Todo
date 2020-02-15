@@ -55,14 +55,14 @@ let listsDisplay = document.getElementById('listsDisplay')
 let userLists = document.getElementById('lists')
 let userListItems = document.getElementById('listItems')
 let commandsDisplay = document.getElementById('commands')
-let listButtons = ['+', '-']
+let listButtons = ['+', '-', 'edit']
 if(userLists !== null){
     let data = JSON.parse(userLists.value)
     let createListButton = document.createElement('button')
     createListButton.innerHTML = "new list"
     createListButton.onclick = function(){
         let listName = prompt('enter list name', 'list name')
-        if(listName !== null){
+        if(listName !== null && listName !== ''){
             location.href = "home.php?listName="+listName
         }
     }
@@ -114,6 +114,15 @@ if(userListItems !== null){
             option.onclick = function(){location.href = "home.php?listItemID="+data[i]['id']+"&status="+x}
             statusChooserSelect.appendChild(option)
         }
+        let editContentButton = document.createElement('button')
+        editContentButton.innerHTML = "edit"
+        editContentButton.onclick = function(){
+            let editContent = prompt('enter new content', 'content')
+            if(editContent !== null && editContent !== ''){
+                location.href = "home.php?editedListItem="+editContent+"&listItemID="+data[i]['id']
+            }
+        }
+        li.appendChild(editContentButton)
         statusChooserSelect.selectedIndex = data[i]['status']
         li.appendChild(statusChooserSelect)
         li.appendChild(removeItemButton)
@@ -124,11 +133,17 @@ if(userListItems !== null){
 function executeListCommand(listID, index){
     if(listButtons[index] == "+"){
         let listItemContent = prompt('enter list content', 'content')
-        if(listItemContent !== null){
+        if(listItemContent !== null && listItemContent !== ''){
             location.href = "home.php?listItem="+listItemContent+"&listID="+listID
         }
     }
     else if (listButtons[index] == "-"){
         location.href = "home.php?listToRemoveID="+listID
+    }
+    else if(listButtons[index] == 'edit'){
+        let editListName = prompt('enter list new list name', 'name')
+        if(editListName !== null && editListName !== ''){
+            location.href = "home.php?editedListName="+editListName+"&listID="+listID
+        }
     }
 }
