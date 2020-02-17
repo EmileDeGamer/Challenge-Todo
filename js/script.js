@@ -122,9 +122,54 @@ if(userListItems !== null){
                 location.href = "home.php?editedListItem="+editContent+"&listItemID="+data[i]['id']
             }
         }
+        let editTimeInputFrom = document.createElement('input')
+        editTimeInputFrom.type = "time"
+        let editDateInputFrom = document.createElement('input')
+        editDateInputFrom.type = "date"
+        let editDateInputTill = document.createElement('input')
+        editDateInputTill.type = "date"
+        let editTimeInputTill = document.createElement('input')
+        editTimeInputTill.type = "time"
+        let submitDateAndTimeButton = document.createElement('button')
+        submitDateAndTimeButton.innerHTML = "Submit date and time"
+        submitDateAndTimeButton.onclick = function(){
+            let urlstring = []
+            if(editTimeInputFrom.value !== null){
+                urlstring.push("timeFrom=" + editTimeInputFrom.value)
+            }
+            if(editTimeInputTill.value !== null){
+                urlstring.push("timeTill=" + editTimeInputTill.value)
+            }
+            if(editDateInputTill.value !== null){
+                urlstring.push("dateTill=" + editDateInputTill.value)
+            }
+            if(editDateInputFrom.value !== null){
+                urlstring.push("dateFrom=" + editDateInputFrom.value)
+            }
+
+            let location = "home.php?"
+
+            for (let i = 0; i < urlstring.length; i++) {
+                if(urlstring.length == 1){
+                    location.href = "home.php?" + urlstring[i]
+                }
+                else{
+                    location += urlstring[i] + "&"
+                }
+            }
+
+            location.href = location
+
+            console.log(location)
+        }
         li.appendChild(editContentButton)
         statusChooserSelect.selectedIndex = data[i]['status']
         li.appendChild(statusChooserSelect)
+        li.appendChild(editTimeInputFrom)
+        li.appendChild(editDateInputFrom)
+        li.appendChild(editTimeInputTill)
+        li.appendChild(editDateInputTill)
+        li.appendChild(submitDateAndTimeButton)
         li.appendChild(removeItemButton)
         list.appendChild(li)
     }
