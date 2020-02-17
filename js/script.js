@@ -55,7 +55,7 @@ let listsDisplay = document.getElementById('listsDisplay')
 let userLists = document.getElementById('lists')
 let userListItems = document.getElementById('listItems')
 let commandsDisplay = document.getElementById('commands')
-let listButtons = ['+', '-', 'edit']
+let listButtons = ['+', '-', 'edit', 'sort on state']
 if(userLists !== null){
     let data = JSON.parse(userLists.value)
     let createListButton = document.createElement('button')
@@ -130,6 +130,7 @@ if(userListItems !== null){
     }
 }
 
+let order = ['green', '', 'red']
 function executeListCommand(listID, index){
     if(listButtons[index] == "+"){
         let listItemContent = prompt('enter list content', 'content')
@@ -145,5 +146,21 @@ function executeListCommand(listID, index){
         if(editListName !== null && editListName !== ''){
             location.href = "home.php?editedListName="+editListName+"&listID="+listID
         }
+    }
+    else if(listButtons[index] == 'sort on state'){
+        let list = document.getElementById(listID)
+        let newList = []
+        for (let y = 0; y < order.length; y++) {
+            for (let i = 0; i < list.children.length; i++) {
+                if (list.childNodes[i].style.color == order[y]){
+                    newList.push(list.childNodes[i])
+                }
+            }
+        }
+        list.innerHTML = ""
+        for (let i = 0; i < newList.length; i++) {
+            list.appendChild(newList[i])
+        }
+        order = order.reverse()
     }
 }
