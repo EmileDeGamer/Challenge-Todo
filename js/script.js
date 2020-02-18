@@ -55,7 +55,7 @@ let listsDisplay = document.getElementById('listsDisplay')
 let userLists = document.getElementById('lists')
 let userListItems = document.getElementById('listItems')
 let commandsDisplay = document.getElementById('commands')
-let listButtons = ['+', '-', 'edit', 'sort on state']
+let listButtons = ['+', '-', 'edit', 'sort on state', 'sort on date']
 if(userLists !== null){
     let data = JSON.parse(userLists.value)
     let createListButton = document.createElement('button')
@@ -96,6 +96,7 @@ if(userListItems !== null){
         let list = document.getElementById(data[i]['listID'])
         let li = document.createElement('li')
         li.innerHTML = data[i]['listItem'].replace(/\/\/\/\/\/zxyxyz\/\/\/\/\//g, ' ')
+        li.id = data[i]['id']
         let removeItemButton = document.createElement('button')
         removeItemButton.innerHTML = "-"
         removeItemButton.onclick = function(){location.href = "home.php?listItemID="+data[i]['id']}
@@ -124,15 +125,19 @@ if(userListItems !== null){
         }
         let editTimeInputFrom = document.createElement('input')
         editTimeInputFrom.type = "time"
+        editTimeInputFrom.name = "timeFrom"
         editTimeInputFrom.value = data[i]['timeFrom']
         let editDateInputFrom = document.createElement('input')
         editDateInputFrom.type = "date"
+        editDateInputFrom.name = "dateFrom"
         editDateInputFrom.value = data[i]['dateFrom']
         let editDateInputTill = document.createElement('input')
-        editDateInputTill.type = "date"
+        editDateInputTill.type = "date" 
+        editDateInputTill.name = "dateTill"
         editDateInputTill.value = data[i]['dateTill']
         let editTimeInputTill = document.createElement('input')
         editTimeInputTill.type = "time"
+        editTimeInputTill.name = "timeTill"
         editTimeInputTill.value = data[i]['timeTill']
         let submitDateAndTimeButton = document.createElement('button')
         submitDateAndTimeButton.innerHTML = "Submit date and time"
@@ -214,5 +219,46 @@ function executeListCommand(listID, index){
             list.appendChild(newList[i])
         }
         order = order.reverse()
+    }
+    else if  (listButtons[index] == 'sort on date'){
+        let list = document.getElementById(listID)
+        let newList = []
+        let values = []
+        let ids = []
+        for (let i = 0; i < list.children.length; i++) {
+            let idsArray = ['dateFrom', 'dateTill', 'timeFrom', 'timeTill']
+            for (let x = 0; x < list.childNodes[i].children.length; x++) {
+                for (let z = 0; z < idsArray.length; z++) {
+                    if(idsArray[z] == list.childNodes[i].childNodes[x].name){
+                        values.push(list.childNodes[i].childNodes[x].value)
+                        if(ids.indexOf(list.childNodes[i].id) == -1){
+                            ids.push(list.childNodes[i].id)
+                        }
+                    }
+                }
+            }
+        }
+        let dates = []
+        for (let x = 0; x < values.length; x++) {
+            dates.push(new Date(values[1] + " " + values[0]))
+            values.shift()
+            values.shift()
+            values.shift()
+            values.shift()
+        }
+        /*list.innerHTML = ""
+        for (let x = 0; x < dates.length; x++) {
+            for (let i = 0; i < newList.length; i++) {
+                list.appendChild(newList[i])
+            }
+        }*/
+        console.log(dates)
+        let idOrder = []
+        dates = dates.sort((a, b) => b - a)
+        console.log(dates)
+        for (let i = 0; i < dates.length; i++) {
+            idOrder.push(dates[ids.indexOf(dates[i])])
+        }
+        console.log(idOrder)
     }
 }
