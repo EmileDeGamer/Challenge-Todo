@@ -124,43 +124,50 @@ if(userListItems !== null){
         }
         let editTimeInputFrom = document.createElement('input')
         editTimeInputFrom.type = "time"
+        editTimeInputFrom.value = data[i]['timeFrom']
         let editDateInputFrom = document.createElement('input')
         editDateInputFrom.type = "date"
+        editDateInputFrom.value = data[i]['dateFrom']
         let editDateInputTill = document.createElement('input')
         editDateInputTill.type = "date"
+        editDateInputTill.value = data[i]['dateTill']
         let editTimeInputTill = document.createElement('input')
         editTimeInputTill.type = "time"
+        editTimeInputTill.value = data[i]['timeTill']
         let submitDateAndTimeButton = document.createElement('button')
         submitDateAndTimeButton.innerHTML = "Submit date and time"
         submitDateAndTimeButton.onclick = function(){
             let urlstring = []
-            if(editTimeInputFrom.value !== null){
+            if(editTimeInputFrom.value !== ''){
                 urlstring.push("timeFrom=" + editTimeInputFrom.value)
             }
-            if(editTimeInputTill.value !== null){
+            if(editTimeInputTill.value !== ''){
                 urlstring.push("timeTill=" + editTimeInputTill.value)
             }
-            if(editDateInputTill.value !== null){
+            if(editDateInputTill.value !== ''){
                 urlstring.push("dateTill=" + editDateInputTill.value)
             }
-            if(editDateInputFrom.value !== null){
+            if(editDateInputFrom.value !== ''){
                 urlstring.push("dateFrom=" + editDateInputFrom.value)
             }
 
-            let location = "home.php?"
+            let url = "home.php?listDateItemID="+data[i]['id']+"&"
 
-            for (let i = 0; i < urlstring.length; i++) {
+            for (let x = 0; x < urlstring.length; x++) {
                 if(urlstring.length == 1){
-                    location.href = "home.php?" + urlstring[i]
+                    url.href = url + urlstring[x]
                 }
                 else{
-                    location += urlstring[i] + "&"
+                    if(x !== urlstring.length - 1){
+                        url += urlstring[x] + "&"
+                    }
+                    else{
+                        url += urlstring[x]
+                    }   
                 }
             }
 
-            location.href = location
-
-            console.log(location)
+            location.href = url
         }
         li.appendChild(editContentButton)
         statusChooserSelect.selectedIndex = data[i]['status']

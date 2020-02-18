@@ -50,5 +50,9 @@
             updateData('listItems', ['listItem'=>str_replace(' ','/////zxyxyz/////',$_GET['editedListItem'])],['id'=>$_GET['listItemID']]);
             echo "<script>location.href = 'home.php'</script>";
         }
+        if(isset($_GET['listDateItemID']) && isset($_GET['timeFrom']) && isset($_GET['timeTill']) && isset($_GET['dateFrom']) && isset($_GET['dateTill'])){
+            updateData('listItems', ['dateFrom'=>$_GET['dateFrom'],'timeFrom'=>$_GET['timeFrom'],'dateTill'=>$_GET['dateTill'],'timeTill'=>$_GET['timeTill']], ['id'=>$_GET['listDateItemID']]);
+            echo "<script>location.href = 'home.php'</script>";
+        }
     ?>
 <?php include "./layout/footer.php" ?>
