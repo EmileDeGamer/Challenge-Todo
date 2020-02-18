@@ -255,10 +255,26 @@ function executeListCommand(listID, index){
         console.log(dates)
         let idOrder = []
         dates = dates.sort((a, b) => b - a)
+        for (let i = 0; i < list.children.length; i++) {
+            let idsArray = ['dateFrom', 'dateTill', 'timeFrom', 'timeTill']
+            for (let x = 0; x < list.childNodes[i].children.length; x++) {
+                for (let z = 0; z < idsArray.length; z++) {
+                    if(idsArray[z] == list.childNodes[i].childNodes[x].name){
+                        for (let y = 0; y < dates.length; y++) {
+                            if(new Date(values[1] + " " + values[0]) == dates[y]){
+                                
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+        /*
         console.log(dates)
         for (let i = 0; i < dates.length; i++) {
             idOrder.push(dates[ids.indexOf(dates[i])])
         }
-        console.log(idOrder)
+        console.log(idOrder)*/
     }
 }
