@@ -224,46 +224,31 @@ function executeListCommand(listID, index){
     else if  (listButtons[index] == 'sort on date'){
         let list = document.getElementById(listID)
         let newList = []
-        let values = []
+        let dateValues = []
+        let tDateValues = []
         let idsArray = ['dateFrom', 'dateTill', 'timeFrom', 'timeTill']
         for (let i = 0; i < list.children.length; i++) {
             for (let x = 0; x < list.childNodes[i].children.length; x++) {
                 for (let z = 0; z < idsArray.length; z++) {
                     if(idsArray[z] == list.childNodes[i].childNodes[x].name){
-                        values.push(list.childNodes[i].childNodes[x].value)
+                        dateValues.push(list.childNodes[i].childNodes[x].value)
+                        tDateValues.push(list.childNodes[i].childNodes[x].value)
                     }
                 }
             }
         }
         let dates = []
-        for (let x = 0; x < values.length; x++) {
-            dates.push(new Date(values[1] + " " + values[0]))
-            values.shift()
-            values.shift()
-            values.shift()
-            values.shift()
-        }
-
-        dates.sort((a, b) => b - a)
-
-        for (let i = 0; i < list.children.length; i++) {
-            for (let x = 0; x < list.childNodes[i].children.length; x++) {
-                for (let z = 0; z < idsArray.length; z++) {
-                    if(idsArray[z] == list.childNodes[i].childNodes[x].name){
-                        values.push(list.childNodes[i].childNodes[x].value)
-                    }
-                }
+        let tDates = []
+        for (let x = 0; x < dateValues.length; x++) {
+            dates.push(new Date(dateValues[1] + " " + dateValues[0]))
+            tDates.push(new Date(tDateValues[1] + " " + tDateValues[0]))
+            for (let i = 0; i < 4; i++) {
+                dateValues.shift()
+                tDateValues.shift()
             }
         }
 
-        let tDates = []
-        for (let x = 0; x < values.length; x++) {
-            tDates.push(new Date(values[1] + " " + values[0]))
-            values.shift()
-            values.shift()
-            values.shift()
-            values.shift()
-        }
+        dates.sort((a, b) => b - a)
 
         let order = []
         for (let i = 0; i < dates.length; i++) {
@@ -288,7 +273,6 @@ function executeListCommand(listID, index){
                     newList.push(list.childNodes[i])
                 }
             }
-            
         }
         
         list.innerHTML = ""
