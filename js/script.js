@@ -188,6 +188,7 @@ if(userListItems !== null){
 }
 
 let order = ['green', '', 'red']
+let reverseOrder = false
 function executeListCommand(listID, index){
     if(listButtons[index] == "+"){
         let listItemContent = prompt('enter list content', 'content')
@@ -224,16 +225,12 @@ function executeListCommand(listID, index){
         let list = document.getElementById(listID)
         let newList = []
         let values = []
-        let ids = []
+        let idsArray = ['dateFrom', 'dateTill', 'timeFrom', 'timeTill']
         for (let i = 0; i < list.children.length; i++) {
-            let idsArray = ['dateFrom', 'dateTill', 'timeFrom', 'timeTill']
             for (let x = 0; x < list.childNodes[i].children.length; x++) {
                 for (let z = 0; z < idsArray.length; z++) {
                     if(idsArray[z] == list.childNodes[i].childNodes[x].name){
                         values.push(list.childNodes[i].childNodes[x].value)
-                        if(ids.indexOf(list.childNodes[i].id) == -1){
-                            ids.push(list.childNodes[i].id)
-                        }
                     }
                 }
             }
@@ -246,35 +243,57 @@ function executeListCommand(listID, index){
             values.shift()
             values.shift()
         }
-        /*list.innerHTML = ""
-        for (let x = 0; x < dates.length; x++) {
-            for (let i = 0; i < newList.length; i++) {
-                list.appendChild(newList[i])
-            }
-        }*/
-        console.log(dates)
-        let idOrder = []
-        dates = dates.sort((a, b) => b - a)
+
+        dates.sort((a, b) => b - a)
+
         for (let i = 0; i < list.children.length; i++) {
-            let idsArray = ['dateFrom', 'dateTill', 'timeFrom', 'timeTill']
             for (let x = 0; x < list.childNodes[i].children.length; x++) {
                 for (let z = 0; z < idsArray.length; z++) {
                     if(idsArray[z] == list.childNodes[i].childNodes[x].name){
-                        for (let y = 0; y < dates.length; y++) {
-                            if(new Date(values[1] + " " + values[0]) == dates[y]){
-                                
-                            }
-                        }
-                        
+                        values.push(list.childNodes[i].childNodes[x].value)
                     }
                 }
             }
         }
-        /*
-        console.log(dates)
-        for (let i = 0; i < dates.length; i++) {
-            idOrder.push(dates[ids.indexOf(dates[i])])
+
+        let tDates = []
+        for (let x = 0; x < values.length; x++) {
+            tDates.push(new Date(values[1] + " " + values[0]))
+            values.shift()
+            values.shift()
+            values.shift()
+            values.shift()
         }
-        console.log(idOrder)*/
+
+        let order = []
+        for (let i = 0; i < dates.length; i++) {
+            for (let x = 0; x < tDates.length; x++) {
+                if(dates[i].toTimeString() == tDates[x].toTimeString()){
+                    order.push(x)
+                }
+            }
+        }
+
+        if(reverseOrder){
+            order.reverse()
+            reverseOrder = false
+        }
+        else{
+            reverseOrder = true
+        }
+
+        for (let x = 0; x < order.length; x++) {
+            for (let i = 0; i < list.children.length; i++) {
+                if(order[x] == i){
+                    newList.push(list.childNodes[i])
+                }
+            }
+            
+        }
+        
+        list.innerHTML = ""
+        for (let i = 0; i < newList.length; i++) {
+            list.appendChild(newList[i])
+        }
     }
 }
