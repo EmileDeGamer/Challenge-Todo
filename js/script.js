@@ -55,7 +55,9 @@ let listsDisplay = document.getElementById('listsDisplay')
 let userLists = document.getElementById('lists')
 let userListItems = document.getElementById('listItems')
 let commandsDisplay = document.getElementById('commands')
-let listButtons = ['+', '-', 'edit', 'sort on state', 'sort on date']
+let listButtons = ['+', '-', 'edit', 'input:state', 'input:duration', 'remove filter']//'sort on state', 'sort on date']
+let statusOptions = ['none', 'Done', 'Failed']
+let statusColors = [null, 'green', 'red']
 if(userLists !== null){
     let data = JSON.parse(userLists.value)
     let createListButton = document.createElement('button')
@@ -75,10 +77,42 @@ if(userLists !== null){
         listTitle.innerHTML = data[i]['listName'].replace(/\/\/\/\/\/zxyxyz\/\/\/\/\//g, ' ')
         buttonsHolder.appendChild(listTitle)
         for (let x = 0; x < listButtons.length; x++) {
-            let button = document.createElement('button')
-            button.innerHTML = listButtons[x]
-            button.onclick = function(){executeListCommand(data[i]['id'], x)}
-            buttonsHolder.appendChild(button)
+            if(listButtons[x].includes('input:')){
+                let names = listButtons[x].split('input:')
+                if(names[1] == 'state'){
+                    let input = document.createElement('select')
+                    input.id = "selectState"
+                    for (let x = 0; x < statusOptions.length; x++) {
+                        let option = document.createElement('option')
+                        let text = document.createTextNode(statusOptions[x])
+                        if(statusColors[x] !== null){
+                            option.style.background = statusColors[x]
+                        }
+                        option.appendChild(text)
+                        option.value = statusOptions[x]
+                        option.onclick = function(){location.href = "home.php?filterOn=" + x}
+                        input.appendChild(option)
+                    }
+                    buttonsHolder.appendChild(input)
+                }
+                else if (names[1] == 'duration'){
+                    let input = document.createElement('input')
+                    input.type = "number"
+                    input.min = 0
+                    input.value = 0
+                    input.id = "durationInput"
+                    buttonsHolder.appendChild(input)
+                    input.onchange = function(){
+                        location.href = "home.php?duration=" + input.value
+                    } 
+                }
+            }
+            else{
+                let button = document.createElement('button')
+                button.innerHTML = listButtons[x]
+                button.onclick = function(){executeListCommand(data[i]['id'], x)}
+                buttonsHolder.appendChild(button)
+            }
         }
         listHolder.appendChild(buttonsHolder)
         let ul = document.createElement('ul')
@@ -88,8 +122,6 @@ if(userLists !== null){
     }
 }
 
-let statusOptions = ['none', 'Done', 'Failed']
-let statusColors = [null, 'green', 'red']
 if(userListItems !== null){
     let data = JSON.parse(userListItems.value)
     for (let i = 0; i < data.length; i++) {
@@ -123,7 +155,14 @@ if(userListItems !== null){
                 location.href = "home.php?editedListItem="+editContent+"&listItemID="+data[i]['id']
             }
         }
-        let editTimeInputFrom = document.createElement('input')
+        let durationInput = document.createElement('input')
+        durationInput.type = "number"
+        durationInput.value = data[i]['duration']
+        durationInput.min = 0
+        durationInput.onchange = function(){
+            location.href = "home.php?duration="+durationInput.value+"&listDurationItemID="+data[i]['id']
+        }
+        /*let editTimeInputFrom = document.createElement('input')
         editTimeInputFrom.type = "time"
         editTimeInputFrom.name = "timeFrom"
         editTimeInputFrom.value = data[i]['timeFrom']
@@ -173,22 +212,27 @@ if(userListItems !== null){
             }
 
             location.href = url
-        }
+        }*/
         li.appendChild(editContentButton)
         statusChooserSelect.selectedIndex = data[i]['status']
         li.appendChild(statusChooserSelect)
-        li.appendChild(editTimeInputFrom)
+        /*li.appendChild(editTimeInputFrom)
         li.appendChild(editDateInputFrom)
         li.appendChild(editTimeInputTill)
         li.appendChild(editDateInputTill)
-        li.appendChild(submitDateAndTimeButton)
+        li.appendChild(submitDateAndTimeButton)*/
+        let text = document.createElement('span')
+        text.innerText = "min"
+        text.style.color = "black"
+        li.appendChild(durationInput)
+        li.appendChild(text)
         li.appendChild(removeItemButton)
         list.appendChild(li)
     }
 }
 
-let order = ['green', '', 'red']
-let reverseOrder = false
+//let order = ['green', '', 'red']
+//let reverseOrder = false
 function executeListCommand(listID, index){
     if(listButtons[index] == "+"){
         let listItemContent = prompt('enter list content', 'content')
@@ -205,7 +249,34 @@ function executeListCommand(listID, index){
             location.href = "home.php?editedListName="+editListName+"&listID="+listID
         }
     }
-    else if(listButtons[index] == 'sort on state'){
+    else if (listButtons[index] == 'remove filter'){
+        location.href = "home.php"
+    }
+    /*else if(listButtons[index] == 'filter on state'){
+        
+        let list = document.getElementById(listID)
+        let newList = []
+        //for (let y = 0; y < order.length; y++) {
+            for (let i = 0; i < list.children.length; i++) {
+                //console.log(document.getElementById('selectState').value)
+                //for (let x = 0; x < list.childNodes[i].children.length; x++) {
+                    console.log(list.childNodes[i].childNodes[2].value)
+                    if (list.childNodes[i].childNodes[2].value == document.getElementById('selectState').value){
+                        newList.push(list.childNodes[i])
+                    }
+                //}
+            }
+        //}
+        list.innerHTML = ""
+        for (let i = 0; i < newList.length; i++) {
+            list.appendChild(newList[i])
+        }
+        //order = order.reverse()
+    }
+    else if (listButtons[index] == 'filter on duration'){
+
+    }*/
+    /*else if(listButtons[index] == 'sort on state'){
         let list = document.getElementById(listID)
         let newList = []
         for (let y = 0; y < order.length; y++) {
@@ -279,5 +350,5 @@ function executeListCommand(listID, index){
         for (let i = 0; i < newList.length; i++) {
             list.appendChild(newList[i])
         }
-    }
+    }*/
 }

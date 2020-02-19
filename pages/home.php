@@ -50,9 +50,27 @@
             updateData('listItems', ['listItem'=>str_replace(' ','/////zxyxyz/////',$_GET['editedListItem'])],['id'=>$_GET['listItemID']]);
             echo "<script>location.href = 'home.php'</script>";
         }
-        if(isset($_GET['listDateItemID']) && isset($_GET['timeFrom']) && isset($_GET['timeTill']) && isset($_GET['dateFrom']) && isset($_GET['dateTill'])){
+        /*if(isset($_GET['listDateItemID']) && isset($_GET['timeFrom']) && isset($_GET['timeTill']) && isset($_GET['dateFrom']) && isset($_GET['dateTill'])){
             updateData('listItems', ['dateFrom'=>$_GET['dateFrom'],'timeFrom'=>$_GET['timeFrom'],'dateTill'=>$_GET['dateTill'],'timeTill'=>$_GET['timeTill']], ['id'=>$_GET['listDateItemID']]);
             echo "<script>location.href = 'home.php'</script>";
+        }*/
+        if(isset($_GET['duration']) && isset($_GET['listDurationItemID'])){
+            updateData('listItems', ['duration'=>$_GET['duration']], ['id'=>$_GET['listDurationItemID']]);
+            echo "<script>location.href = 'home.php'</script>";
+        }
+        if(isset($_GET['filterOn'])){
+            $userListItems = getData('listItems', ['username'=>$_SESSION['user']['username'], 'status'=>$_GET['filterOn']]);
+            echo "<script>document.getElementById('listItems').remove()</script>";
+            echo "<input type='hidden' id='listItems' name='listItems' value=".json_encode($userListItems).">";
+        }
+        if(isset($_GET['duration'])){
+            $stmt = $GLOBALS['conn']->prepare("SELECT * FROM listItems WHERE `username` = :username AND `duration` <= :duration");
+            $stmt->execute(['username'=>$_SESSION['user']['username'],'duration'=>$_GET['duration']]);
+
+            $result = $stmt->fetchAll();
+
+            echo "<script>document.getElementById('listItems').remove()</script>";
+            echo "<input type='hidden' id='listItems' name='listItems' value=".json_encode($result).">";
         }
     ?>
 <?php include "./layout/footer.php" ?>
