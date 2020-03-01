@@ -3,10 +3,18 @@ $accentColor: rgb(20, 172, 223);
 body{
     margin: auto;
     header{
+        text-align: center;
         #menuButtons{
             list-style: none;
             padding: 0;
             li{
+                a{
+                    color: black;
+                    text-decoration: none;
+                }
+                a:hover{
+                    color: $accentColor;
+                }
                 display: inline-block;
                 margin: 25px;
             }
@@ -14,11 +22,53 @@ body{
                 color: $accentColor;
             }
         }
+        border-bottom: 1px solid black;
+    }
+    footer{
+        border-top: 1px solid black;
+        text-align: center;
+        padding: 25px 0;
+    }
+    #pageTitle{
+        text-align: center;
+    }
+    #errorsDisplay{
+        list-style: none;
+        color: red;
+        padding: 0;
+        font-size: 17.5px;
+        text-align: center;
+    }
+    button{
+        background: white;
+        border: 1px solid black;
+    }
+    button:hover{
+        background: $accentColor;
     }
     form{
+        *{
+            box-sizing: border-box;
+        }
         display: flex;
         justify-content: center;
         flex-direction: column;
+        margin: 25px 500px;
+        input, button{
+            margin: 10px 0px;
+        }
+        span{
+            position: relative;
+            input{
+                width: 100%;
+            }
+            #showPassword, #showRepeatPassword{
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                width: 10px;
+            }
+        }
     }
     #exampleList{
         border: 1px solid black;
@@ -28,6 +78,41 @@ body{
         #listItems{
             padding: 0;
             list-style: none;
+        }
+    }
+    #commands{
+        text-align: center;
+        padding: 0;
+        *{
+            margin: 0px 5px;
+        }
+        
+    }
+    #listsDisplay{
+        width: 100%;
+        margin: auto;
+        text-align: center;
+        display: inline-block;
+        div{
+            div{
+                button{
+                    margin: 0px 5px;
+                }
+            }
+            margin-bottom: 10px;
+        }
+        ul{
+            border: 1px solid black;
+            box-sizing: border-box;
+            width: 50%;
+            margin: auto;
+            padding: 25px;
+            list-style: none;
+            li{
+                *{
+                    margin: 0px 5px;
+                }
+            }
         }
     }
 }
