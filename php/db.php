@@ -13,11 +13,6 @@
         echo "Connection failed: " . $e->getMessage();
     }
 
-    //insertData("users", ["name", "username"], ["pizza", "pizza"]);
-    //$result = getData('users', null, ['name', 'username'], ['pizza', 'pizza']);
-    //deleteData('users', ['name', 'username'], ['pizza', 'pizza']);
-    //updateData('users', ['name'], ['Henk'], ['username'], ['pizza']);
-
     function insertData($table, $valuesObject){
         try{
             $fields = '';
