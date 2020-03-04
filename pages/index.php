@@ -5,6 +5,11 @@
             exit;
         }
     ?>
+
+    <ul id="errorsDisplay">
+
+    </ul>
+
     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="post">
         <input type="text" name="username" id="username" placeholder="Username">
         <span><input type="password" name="password" id="password" placeholder="Password"><input type="checkbox" name="showPassword" id="showPassword"></span>
@@ -20,11 +25,11 @@
 
             $userData = getData('users', ['username'=>$user['username']]);
             if($userData == null){
-                echo "username doesn't exist";
+                echo "<script>let errorsDisplay = document.getElementById('errorsDisplay')</script>";
+                echo "<script>error = document.createElement('li'); error.innerHTML = 'Username doesn\'t exist'; errorsDisplay.appendChild(error);</script>";
             }
             else{
                 if(password_verify($user['password'], $userData[0]['password'])){
-                    echo 'Logged in';
                     $tUser = [];
                     $tUser['name'] = $userData[0]['name'];
                     $tUser['username'] = $userData[0]['username'];
@@ -34,7 +39,8 @@
                     exit;
                 }
                 else{
-                    echo 'Wrong password';
+                    echo "<script>let errorsDisplay = document.getElementById('errorsDisplay')</script>";
+                    echo "<script>error = document.createElement('li'); error.innerHTML = 'Wrong password'; errorsDisplay.appendChild(error);</script>";
                 }
             }
         }

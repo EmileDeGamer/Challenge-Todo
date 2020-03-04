@@ -5,6 +5,10 @@
             exit;
         }
     ?>
+
+    <ul id="errorsDisplay">
+
+    </ul>
     
     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="post">
         <input type="text" name="name" id="name" placeholder="Name">
@@ -60,8 +64,10 @@
                 }
             }
             else{
-                //return errors or something
-                var_dump($errorCounter);
+                echo "<script>let errorsDisplay = document.getElementById('errorsDisplay')</script>";
+                foreach ($errorCounter as $k => $v) {
+                    echo "<script>error = document.createElement('li'); error.innerHTML = '" . $v . "'; errorsDisplay.appendChild(error);</script>";
+                }
             }
         }
         

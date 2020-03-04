@@ -2,6 +2,11 @@ body {
   margin: auto;
 }
 
+body header {
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+
 body header #menuButtons {
   list-style: none;
   padding: 0;
@@ -12,8 +17,44 @@ body header #menuButtons li {
   margin: 25px;
 }
 
+body header #menuButtons li a {
+  color: black;
+  text-decoration: none;
+}
+
+body header #menuButtons li a:hover {
+  color: #14acdf;
+}
+
 body header #menuButtons li:hover {
   color: #14acdf;
+}
+
+body footer {
+  border-top: 1px solid black;
+  text-align: center;
+  padding: 25px 0;
+}
+
+body #pageTitle {
+  text-align: center;
+}
+
+body #errorsDisplay {
+  list-style: none;
+  color: red;
+  padding: 0;
+  font-size: 17.5px;
+  text-align: center;
+}
+
+body button {
+  background: white;
+  border: 1px solid black;
+}
+
+body button:hover {
+  background: #14acdf;
 }
 
 body form {
@@ -27,6 +68,31 @@ body form {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  margin: 25px 500px;
+}
+
+body form * {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body form input, body form button {
+  margin: 10px 0px;
+}
+
+body form span {
+  position: relative;
+}
+
+body form span input {
+  width: 100%;
+}
+
+body form span #showPassword, body form span #showRepeatPassword {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 10px;
 }
 
 body #exampleList {
@@ -36,5 +102,43 @@ body #exampleList {
 body #exampleList #listItems {
   padding: 0;
   list-style: none;
+}
+
+body #commands {
+  text-align: center;
+  padding: 0;
+}
+
+body #commands * {
+  margin: 0px 5px;
+}
+
+body #listsDisplay {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  display: inline-block;
+}
+
+body #listsDisplay div {
+  margin-bottom: 10px;
+}
+
+body #listsDisplay div div button {
+  margin: 0px 5px;
+}
+
+body #listsDisplay ul {
+  border: 1px solid black;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 50%;
+  margin: auto;
+  padding: 25px;
+  list-style: none;
+}
+
+body #listsDisplay ul li * {
+  margin: 0px 5px;
 }
 /*# sourceMappingURL=style.css.map */

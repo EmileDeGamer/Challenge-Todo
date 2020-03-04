@@ -1,0 +1,8 @@
+- Tegen welke problemen liep je aan tijdens het uitvoeren van de opdracht?
+Het verkeerd begrijpen van het sorteren op duur en status
+- Had je genoeg tijd voor de opdracht?
+Ja
+- Vond je de opdracht te makkelijk of juist te moeilijk?
+Gemiddeld
+- Link naar je GitHub repository
+https://github.com/EmileDeGamer/Challenge-Todo

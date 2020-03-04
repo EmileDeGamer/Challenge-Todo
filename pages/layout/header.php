@@ -24,4 +24,5 @@
             </ul>
         </header> 
         <?php include ('./../php/db.php') ?>
-        <h1 id="pageTitle">ToDo</h1>
+        <div id="content">
+            <h1 id="pageTitle">ToDo</h1>
