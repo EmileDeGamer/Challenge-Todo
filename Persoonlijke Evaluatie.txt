@@ -1,0 +1,3 @@
+Persoonlijke evaluatie to-do list:
+
+De front-end is vrij basic maar wel overzichtelijk en redelijk gebruikersvriendelijk. De back-end liep ik een paar keer op vast, omdat ik een paar dingen niet in 1 keer goed begreep. Maar uinteindelijk heeft dit toch geleid tot een werkende to-do list web-applicatie.
