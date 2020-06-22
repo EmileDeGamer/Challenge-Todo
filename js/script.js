@@ -3,6 +3,17 @@ let pageTitle = document.getElementById('pageTitle')
 let showPassword = document.getElementById('showPassword')
 let showRepeatPassword = document.getElementById('showRepeatPassword')
 
+let listsDisplay = document.getElementById('listsDisplay')
+let userLists = document.getElementById('lists')
+let userListItems = document.getElementById('listItems')
+let commandsDisplay = document.getElementById('commands')
+let commandsButtons = ['new list', 'input:state', 'input:duration', 'remove filter']
+let listButtons = ['+', '-', 'edit']
+let statusOptions = ['none', 'Done', 'Failed']
+let statusColors = [null, 'green', 'red']
+
+let page = location.href
+
 if(showPassword !== null){
     makePasswordVisible('showPassword')
     showPassword.onclick = function(){makePasswordVisible('showPassword')}
@@ -11,29 +22,6 @@ if(showRepeatPassword !== null){
     makePasswordVisible('showRepeatPassword')
     showRepeatPassword.onclick = function(){makePasswordVisible('showRepeatPassword')}
 }
-
-function makePasswordVisible(passwordType){
-    if(passwordType == 'showPassword'){
-        let input = document.getElementById('password')    
-        if(showPassword.checked){
-            input.type = "text"
-        }
-        else{
-            input.type = "password"
-        }
-    }
-    else if (passwordType == 'showRepeatPassword'){
-        let input = document.getElementById('repeatPassword')
-        if(showRepeatPassword.checked){
-            input.type = "text"
-        }
-        else{
-            input.type = "password"
-        }
-    }
-}
-
-let page = location.href
 
 page = page.split('/')
 if(page[page.length - 1] == ''){
@@ -51,14 +39,6 @@ else{
     }
 }
 
-let listsDisplay = document.getElementById('listsDisplay')
-let userLists = document.getElementById('lists')
-let userListItems = document.getElementById('listItems')
-let commandsDisplay = document.getElementById('commands')
-let commandsButtons = ['new list', 'input:state', 'input:duration', 'remove filter']
-let listButtons = ['+', '-', 'edit']
-let statusOptions = ['none', 'Done', 'Failed']
-let statusColors = [null, 'green', 'red']
 if(userLists !== null){
     let data = JSON.parse(userLists.value)
     for (let x = 0; x < commandsButtons.length; x++) {
@@ -170,6 +150,27 @@ if(userListItems !== null){
         li.appendChild(text)
         li.appendChild(removeItemButton)
         list.appendChild(li)
+    }
+}
+
+function makePasswordVisible(passwordType){
+    if(passwordType == 'showPassword'){
+        let input = document.getElementById('password')    
+        if(showPassword.checked){
+            input.type = "text"
+        }
+        else{
+            input.type = "password"
+        }
+    }
+    else if (passwordType == 'showRepeatPassword'){
+        let input = document.getElementById('repeatPassword')
+        if(showRepeatPassword.checked){
+            input.type = "text"
+        }
+        else{
+            input.type = "password"
+        }
     }
 }
 

@@ -8,19 +8,14 @@
             exit;
         }
     ?>
-    <ul id="commands">
-        
-    </ul>
-
-    <div id="listsDisplay">
-
-    </div>
 
     <?php 
         $userLists = getData('lists', ['username'=>$_SESSION['user']['username']]);
-        echo "<input type='hidden' id='lists' name='lists' value=".json_encode($userLists).">";
         $userListItems = getData('listItems', ['username'=>$_SESSION['user']['username']]);
+
+        echo "<input type='hidden' id='lists' name='lists' value=".json_encode($userLists).">";
         echo "<input type='hidden' id='listItems' name='listItems' value=".json_encode($userListItems).">";
+
         if(isset($_GET['listName']) && !isset($_GET['listItem'])){
             insertData('lists', ['username'=>$_SESSION['user']['username'], 'listName'=>str_replace(' ','/////zxyxyz/////',test_input($_GET['listName']))]);
             echo "<script>location.href = 'home.php'</script>";
@@ -50,10 +45,6 @@
             updateData('listItems', ['listItem'=>str_replace(' ','/////zxyxyz/////',test_input($_GET['editedListItem']))],['id'=>test_input($_GET['listItemID'])]);
             echo "<script>location.href = 'home.php'</script>";
         }
-        /*if(isset($_GET['listDateItemID']) && isset($_GET['timeFrom']) && isset($_GET['timeTill']) && isset($_GET['dateFrom']) && isset($_GET['dateTill'])){
-            updateData('listItems', ['dateFrom'=>$_GET['dateFrom'],'timeFrom'=>$_GET['timeFrom'],'dateTill'=>$_GET['dateTill'],'timeTill'=>$_GET['timeTill']], ['id'=>$_GET['listDateItemID']]);
-            echo "<script>location.href = 'home.php'</script>";
-        }*/
         if(isset($_GET['duration']) && isset($_GET['listDurationItemID'])){
             updateData('listItems', ['duration'=>test_input($_GET['duration'])], ['id'=>test_input($_GET['listDurationItemID'])]);
             echo "<script>location.href = 'home.php'</script>";
@@ -78,6 +69,14 @@
             $data = stripslashes($data);
             $data = htmlspecialchars($data);
             return $data;
-          }
+        }
     ?>
+
+    <ul id="commands">
+        
+    </ul>
+    
+    <div id="listsDisplay">
+    
+    </div>
 <?php include "./layout/footer.php" ?>

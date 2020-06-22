@@ -6,19 +6,6 @@
         }
     ?>
 
-    <ul id="errorsDisplay">
-
-    </ul>
-    
-    <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="post">
-        <input type="text" name="name" id="name" placeholder="Name">
-        <input type="text" name="username" id="username" placeholder="Username">
-        <input type="text" name="email" id="email" placeholder="Email">
-        <span><input type="password" name="password" id="password" placeholder="Password"><input type="checkbox" name="showPassword" id="showPassword"></span>
-        <span><input type="password" name="repeatPassword" id="repeatPassword" placeholder="Repeat Password"><input type="checkbox" name="showRepeatPassword" id="showRepeatPassword"></span>
-        <button type="submit">Register</button>
-    </form>
-
     <?php
         $user = array();
 
@@ -78,5 +65,18 @@
             return $data;
         }
     ?>
+
+    <ul id="errorsDisplay">
+
+    </ul>
+
+    <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="post">
+        <input type="text" name="name" id="name" placeholder="Name">
+        <input type="text" name="username" id="username" placeholder="Username">
+        <input type="text" name="email" id="email" placeholder="Email">
+        <span><input type="password" name="password" id="password" placeholder="Password"><input type="checkbox" name="showPassword" id="showPassword"></span>
+        <span><input type="password" name="repeatPassword" id="repeatPassword" placeholder="Repeat Password"><input type="checkbox" name="showRepeatPassword" id="showRepeatPassword"></span>
+        <button type="submit">Register</button>
+    </form>
 
 <?php include "./layout/footer.php" ?>
